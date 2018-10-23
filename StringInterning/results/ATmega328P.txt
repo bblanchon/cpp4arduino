@@ -1,0 +1,15 @@
+const char*
+ s1 = 309
+ s2 = 309
+char[]
+ s1 = 268
+ s2 = 262
+char[] PROGMEM
+ s1 = 122
+ s2 = 116
+F()
+ s1 = 110
+ s2 = 104
+String
+ s1 = 544
+ s2 = 552

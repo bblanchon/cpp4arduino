@@ -1,0 +1,3 @@
+# Why C++ programmers stopped using NULL?
+
+Read the article on [cpp4arduino.com](https://cpp4arduino.com/2018/10/26/why-cpp-programmers-stopped-using-null.html)

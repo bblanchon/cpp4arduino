@@ -1,8 +1,8 @@
 // C++ for Arduino
-// Why C++ programmers stopped using NULL?
+// Why C++ programmers don't use NULL?
 //
 // Read the article:
-// https://cpp4arduino.com/2018/10/26/why-cpp-programmers-stopped-using-null.html
+// https://cpp4arduino.com/2018/10/26/why-cpp-programmers-dont-use-null.html
 
 template <typename T>
 void printValue(T value);

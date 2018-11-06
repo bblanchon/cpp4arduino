@@ -7,22 +7,15 @@
 // The program prints the value of the heap fragmentation.
 // You can use the Serial Plotter to see the curve.
 
-// WARNING. This program can only work on AVR architecture, for example on the
-// Arduino UNO. Check out the other projects in this folder to see if one
-// matches your microcontroller.
-
-// WARNING. The settings below cause a significant heap fragmentation on a
-// microcontroller with 2KB of RAM, like the Arduino UNO. You need to changes
-// the values if you have a bigger version.
-
 #include "MemoryInfo.h"
 
 // Try to change these values and observe the evolution of the fragmentation.
 // As you'll see, fragmentation disappears if SMALLEST_STRING == LARGEST_STRING,
 // i.e. if the size of the strings is constant.
 const size_t NUMBER_OF_STRINGS = 20;
-const size_t SMALLEST_STRING = 10;
-const size_t LARGEST_STRING = 50;
+const size_t MAX_MEM_USAGE = getTotalAvailableMemory() * 3 / 4; // 75% of RAM
+const size_t LARGEST_STRING = MAX_MEM_USAGE / NUMBER_OF_STRINGS;
+const size_t SMALLEST_STRING = LARGEST_STRING / 5; // varies from 1x to 5x
 
 // The collection of string.
 // They allocate and release memory from the heap. We could have called malloc()
@@ -43,12 +36,13 @@ void loop() {
     // Replace each string with a new random one
     s = generateRandomString();
   }
-  // Compute and print the heap fragmentation
-  Serial.println(getFragmentation());
 
-  // You may try to print other values such as:
-  // - getTotalAvailableMemory()
-  // - getLargestAvailableBlock()
+  Serial.print(getTotalAvailableMemory());
+  Serial.print(' ');
+  Serial.print(getLargestAvailableBlock());
+  Serial.print(' ');
+  Serial.print(getFragmentation());
+  Serial.println();
 }
 
 // Generates a string whose length is picked randomly between SMALLEST_STRING

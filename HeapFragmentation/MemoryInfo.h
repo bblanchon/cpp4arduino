@@ -2,6 +2,8 @@
 // What is heap fragmentation?
 // https://cpp4arduino.com/
 
+#pragma once
+
 #include <stddef.h> // for size_t
 
 // Returns the number of free bytes in the RAM.

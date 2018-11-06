@@ -7,8 +7,6 @@
 
 // This code is freely inspired from https://github.com/McNeight/MemoryFree
 
-#include "MemoryInfo.h"
-
 // This heap allocator defines this structure to keep track of free blocks.
 struct block_t {
   size_t sz;

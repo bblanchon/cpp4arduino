@@ -17,6 +17,8 @@ The modified class is in a different namespace, to avoid the name clash.
 Results
 -------
 
+## On AVR
+
 Here is the serial output of this program with the Arduino Core for AVR version 1.6.22:
 
 ```
@@ -110,4 +112,101 @@ Here is the serial output of this program with the Arduino Core for AVR version 
 - malloc(33) -> 0x23c
 - strcpy(0x23c, 0x16e) - 32 bytes
 - free(0x23c)
+```
+
+## On ESP8266
+
+Here is the serial output of this program with the Arduino Core for ESP8266 version 2.4.2:
+
+```
+#1: Initialize from RAM
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- free(0x3ffef3fc)
+
+#2: Initialize from Flash
+- malloc(8) -> 0x3ffef3fc
+- strncpy_P(0x3ffef3fc, 0x40235704, 2147483647) - 7 bytes
+- free(0x3ffef3fc)
+
+#3: toCharArray()
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- strncpy(0x3fffff70, 0x3ffef3fc, 7) - 7 bytes
+- free(0x3ffef3fc)
+
+#4: c_str()
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- free(0x3ffef3fc)
+
+#5: Pass by value
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- malloc(8) -> 0x3ffef40c
+- strcpy(0x3ffef40c, 0x3ffef3fc) - 7 bytes
+- free(0x3ffef40c)
+- free(0x3ffef3fc)
+
+#6: Pass by const reference
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- free(0x3ffef3fc)
+
+#7: Move instance
+- malloc(8) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe8878) - 7 bytes
+- free(0x3ffef3fc)
+- free(0)
+
+#8: Append temporaries
+- malloc(6) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe889c) - 5 bytes
+- malloc(6) -> 0x3ffef40c
+- strcpy(0x3ffef40c, 0x3ffef3fc) - 5 bytes
+- realloc(0x3ffef40c, 18) -> 0x3ffef40c
+- strcpy(0x3ffef411, 0x3ffe88a4) - 12 bytes
+- realloc(0x3ffef40c, 23) -> 0x3ffef40c
+- strcpy(0x3ffef41d, 0x3ffe88b4) - 5 bytes
+- realloc(0x3ffef40c, 33) -> 0x3ffef40c
+- strcpy(0x3ffef422, 0x3ffe88bc) - 10 bytes
+- malloc(33) -> 0x3ffef434
+- strcpy(0x3ffef434, 0x3ffef40c) - 32 bytes
+- free(0x3ffef40c)
+- free(0x3ffef3fc)
+- free(0x3ffef434)
+
+#9: Mutate instance
+- malloc(6) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe889c) - 5 bytes
+- realloc(0x3ffef3fc, 18) -> 0x3ffef3fc
+- strcpy(0x3ffef401, 0x3ffe88a4) - 12 bytes
+- realloc(0x3ffef3fc, 23) -> 0x3ffef3fc
+- strcpy(0x3ffef40d, 0x3ffe88b4) - 5 bytes
+- realloc(0x3ffef3fc, 33) -> 0x3ffef3fc
+- strcpy(0x3ffef412, 0x3ffe88bc) - 10 bytes
+- free(0x3ffef3fc)
+
+#10: Call reserve
+- malloc(1) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe88e8) - 0 bytes
+- realloc(0x3ffef3fc, 65) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe889c) - 5 bytes
+- strcpy(0x3ffef401, 0x3ffe88a4) - 12 bytes
+- strcpy(0x3ffef40d, 0x3ffe88b4) - 5 bytes
+- strcpy(0x3ffef412, 0x3ffe88bc) - 10 bytes
+- free(0x3ffef3fc)
+
+#11: Pass a null string to the constructor
+- malloc(65) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe889c) - 5 bytes
+- strcpy(0x3ffef401, 0x3ffe88a4) - 12 bytes
+- strcpy(0x3ffef40d, 0x3ffe88b4) - 5 bytes
+- strcpy(0x3ffef412, 0x3ffe88bc) - 10 bytes
+- free(0x3ffef3fc)
+
+#12: Concat at compile time
+- malloc(33) -> 0x3ffef3fc
+- strcpy(0x3ffef3fc, 0x3ffe88c8) - 32 bytes
+- free(0x3ffef3fc)
 ```

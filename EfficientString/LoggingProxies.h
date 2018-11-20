@@ -54,8 +54,16 @@ inline void strncpy(char *dst, const char *src, size_t n) {
       min(::strlen(src), n));
 }
 
+#ifndef strcpy_P
 inline void strcpy_P(char *dst, const char *src) {
   ::strcpy_P(dst, src);
   log(F("- strcpy_P(%p, %p) - %u bytes"), dst, src, ::strlen_P(src));
+}
+#endif
+
+inline void strncpy_P(char *dst, const char *src, size_t n) {
+  ::strncpy_P(dst, src, n);
+  log(F("- strncpy_P(%p, %p, %u) - %u bytes"), dst, src, n,
+      min(::strlen(src), n));
 }
 } // namespace cpp4arduino

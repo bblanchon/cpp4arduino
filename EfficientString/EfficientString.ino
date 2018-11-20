@@ -100,7 +100,7 @@ void example10() {
 
   // Construct "/api/outdoor_temp?key=0123456789"
   String path;
-  path.reserve(64);
+  path.reserve(63);
   path += "/api/";
   path += RESOURCE;
   path += "?key=";
@@ -114,7 +114,7 @@ void example11() {
 
   // Construct "/api/outdoor_temp?key=0123456789"
   String path((char *)0);
-  path.reserve(64);
+  path.reserve(63);
   path += "/api/";
   path += RESOURCE;
   path += "?key=";

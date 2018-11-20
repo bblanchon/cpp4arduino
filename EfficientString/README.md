@@ -19,7 +19,7 @@ Results
 
 ## On AVR
 
-Here is the serial output of this program with the Arduino Core for AVR version 1.6.22:
+Here is output with the Arduino Core for AVR version 1.6.22:
 
 ```
 #1: Initialize from RAM
@@ -101,7 +101,7 @@ Here is the serial output of this program with the Arduino Core for AVR version 
 - free(0x23c)
 
 #11: Pass a null string to the constructor
-- malloc(65) -> 0x23c
+- malloc(64) -> 0x23c
 - strcpy(0x23c, 0x155) - 5 bytes
 - strcpy(0x241, 0x15b) - 12 bytes
 - strcpy(0x24d, 0x168) - 5 bytes
@@ -116,7 +116,7 @@ Here is the serial output of this program with the Arduino Core for AVR version 
 
 ## On ESP8266
 
-Here is the serial output of this program with the Arduino Core for ESP8266 version 2.4.2:
+Here is the output with the Arduino Core for ESP8266 version 2.4.2:
 
 ```
 #1: Initialize from RAM
@@ -210,3 +210,102 @@ Here is the serial output of this program with the Arduino Core for ESP8266 vers
 - strcpy(0x3ffef3fc, 0x3ffe88c8) - 32 bytes
 - free(0x3ffef3fc)
 ```
+
+## On SAMD
+
+Here is the output with the Arduino Core for SAMD version 1.6.19:
+
+```
+#1: Initialize from RAM
+- malloc(8) -> 0x20000a80
+- strcpy(0x20000a80, 0x8638) - 7 bytes
+- free(0x20000a80)
+
+#2: Initialize from Flash
+- malloc(8) -> 0x20000a80
+- strcpy(0x20000a80, 0x8638) - 7 bytes
+- free(0x20000a80)
+
+#3: toCharArray()
+- malloc(8) -> 0x20000a80
+- strcpy(0x20000a80, 0x8638) - 7 bytes
+- strncpy(0x20007fb8, 0x20000a80, 7) - 7 bytes
+- free(0x20000a80)
+
+#4: c_str()
+- malloc(8) -> 0x20000a80
+- strcpy(0x20000a80, 0x8638) - 7 bytes
+- free(0x20000a80)
+
+#5: Pass by value
+- malloc(8) -> 0x20000a80
+- strcpy(0x20000a80, 0x8638) - 7 bytes
+- malloc(8) -> 0x20000a90
+- strcpy(0x20000a90, 0x20000a80) - 7 bytes
+- free(0x20000a90)
+- free(0x20000a80)
+
+#6: Pass by const reference
+- malloc(8) -> 0x20000a90
+- strcpy(0x20000a90, 0x8638) - 7 bytes
+- free(0x20000a90)
+
+#7: Move instance
+- malloc(8) -> 0x20000a90
+- strcpy(0x20000a90, 0x8638) - 7 bytes
+- free(0x20000a90)
+- free(0)
+
+#8: Append temporaries
+- malloc(6) -> 0x20000a90
+- strcpy(0x20000a90, 0x86cf) - 5 bytes
+- malloc(6) -> 0x20000a80
+- strcpy(0x20000a80, 0x20000a90) - 5 bytes
+- realloc(0x20000a80, 18) -> 0x20000aa0
+- strcpy(0x20000aa5, 0x86d5) - 12 bytes
+- realloc(0x20000aa0, 23) -> 0x20000ab8
+- strcpy(0x20000ac9, 0x86e2) - 5 bytes
+- realloc(0x20000ab8, 33) -> 0x20000ad8
+- strcpy(0x20000aee, 0x876b) - 10 bytes
+- malloc(33) -> 0x20000ab0
+- strcpy(0x20000ab0, 0x20000ad8) - 32 bytes
+- free(0x20000ad8)
+- free(0x20000a90)
+- free(0x20000ab0)
+
+#9: Mutate instance
+- malloc(6) -> 0x20000af8
+- strcpy(0x20000af8, 0x86cf) - 5 bytes
+- realloc(0x20000af8, 18) -> 0x20000ad8
+- strcpy(0x20000add, 0x86d5) - 12 bytes
+- realloc(0x20000ad8, 23) -> 0x20000ad8
+- strcpy(0x20000ae9, 0x86e2) - 5 bytes
+- realloc(0x20000ad8, 33) -> 0x20000ab0
+- strcpy(0x20000ac6, 0x876b) - 10 bytes
+- free(0x20000ab0)
+
+#10: Call reserve
+- malloc(1) -> 0x20000af8
+- strcpy(0x20000af8, 0x8b76) - 0 bytes
+- realloc(0x20000af8, 65) -> 0x20000ab0
+- strcpy(0x20000ab0, 0x86cf) - 5 bytes
+- strcpy(0x20000ab5, 0x86d5) - 12 bytes
+- strcpy(0x20000ac1, 0x86e2) - 5 bytes
+- strcpy(0x20000ac6, 0x876b) - 10 bytes
+- free(0x20000ab0)
+
+#11: Pass a null string to the constructor
+- malloc(64) -> 0x20000ab8
+- strcpy(0x20000ab8, 0x86cf) - 5 bytes
+- strcpy(0x20000abd, 0x86d5) - 12 bytes
+- strcpy(0x20000ac9, 0x86e2) - 5 bytes
+- strcpy(0x20000ace, 0x876b) - 10 bytes
+- free(0x20000ab8)
+
+#12: Concat at compile time
+- malloc(33) -> 0x20000ad8
+- strcpy(0x20000ad8, 0x8755) - 32 bytes
+- free(0x20000ad8)
+```
+
+In #2 we can see that this board doesn't support Flash strings.

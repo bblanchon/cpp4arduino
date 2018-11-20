@@ -22,6 +22,9 @@
 
 #include <Arduino.h>
 #include <avr/pgmspace.h>
+#if defined(ARDUINO_ARCH_SAMD)
+#include <avr/dtostrf.h>
+#endif
 
 #include "LoggingProxies.h"
 #include "WString.h"

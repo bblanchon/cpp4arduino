@@ -1,18 +1,7 @@
-How to use the `String` class efficiently
-=========================================
+8 tips to use the String class efficiently
+==========================================
 
-This program demonstrate how you can improve the efficient of your code when using the `String` class:
-
-* reduce copying
-* reduce allocations
-* reduce fragmentation
-
-To show the effect of each calls, I modified the original `String` class from the [Arduino Core for AVR](https://github.com/arduino/ArduinoCore-avr/blob/2663be17272e19f00c55f3f2d8f1ebfac47158d6/cores/arduino/WString.h):
-
-* I added calls to `Serial.println()`, so that we can see what happens in the Serial Monitor.
-* I removed the platform dependent features, so that we can run this program on other platforms.
-
-The modified class is in a different namespace, to avoid the name clash.
+This project contains the code samples for the article ["8 tips to use the String class efficiently" on cpp4arduino.com](https://cpp4arduino.com/2018/11/21/eight-tips-to-use-the-string-class-efficiently.html)
 
 Results
 -------

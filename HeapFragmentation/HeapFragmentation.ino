@@ -37,12 +37,10 @@ void loop() {
     s = generateRandomString();
   }
 
-  Serial.print(getTotalAvailableMemory());
-  Serial.print(' ');
-  Serial.print(getLargestAvailableBlock());
-  Serial.print(' ');
+  Serial.print("fragmentation:");
   Serial.print(getFragmentation());
   Serial.println();
+  delay(20);
 }
 
 // Generates a string whose length is picked randomly between SMALLEST_STRING

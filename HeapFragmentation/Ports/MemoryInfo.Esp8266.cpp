@@ -3,18 +3,16 @@
 // https://cpp4arduino.com/
 
 // This source file captures the platform dependent code.
-// This version was tested with ESP8266 core for Arduino version 2.4.2
+// This version was tested with ESP8266 core for Arduino version 3.0.2
 
-#include <umm_malloc/umm_malloc.h>
-
-const size_t block_size = 8;
+#include <Esp.h>
 
 size_t getTotalAvailableMemory() {
-  umm_info(0, 0);
-  return ummHeapInfo.freeBlocks * block_size;
+  return ESP.getFreeHeap();
 }
 
 size_t getLargestAvailableBlock() {
-  umm_info(0, 0);
-  return ummHeapInfo.maxFreeContiguousBlocks * block_size;
+  return ESP.getMaxFreeBlockSize();
 }
+
+// NOTE: there is also an ESP.getHeapFragmentation() that gives the same results
